@@ -1,6 +1,8 @@
+// TODO: make recs likable instead of posts
 const { AuthenticationError, UserInputError } = require('apollo-server');
 
 const Post = require('../../Models/Post');
+const Reco = require('../../Models/Reco');
 const checkAuth = require('../../util/check-auth');
 
 module.exports = {
@@ -10,7 +12,7 @@ module.exports = {
         const posts = await Post.find().sort({ createdAt: -1 });
         return posts;
       } catch(err) {
-        throw new Error(err)
+        throw new Error(err);
       }
     },
     async getPost(_, { postId }){
@@ -24,18 +26,21 @@ module.exports = {
       } catch(err) {
         throw new Error('Post not found'); // tutorial used err here but if post isn't found, I end up in catch
       }
+    },
+    async getPostsByUser(_, { username }) {
+      try {
+        const posts = await Post.find().sort({ createdAt: -1 });
+        return posts.filter(p => p.username === username);
+      } catch(err) {
+        throw new Error(err);
+      }
     }
   },
   Mutation: {
-    async createPost(_,{ body }, context) {
+    async createPost(_, { }, context) {
       const user = checkAuth(context);
 
-      if (body.trim() === '') {
-        throw new Error('Post body must not be empty');
-      }
-
       const newPost = new Post({
-        body,
         user: user.id,
         username: user.username,
         createdAt: new Date().toISOString()
@@ -60,7 +65,7 @@ module.exports = {
         throw new Error(err);
       }
     },
-    async likePost(_, {postId}, context) {
+    async likePost(_, { postId }, context) {
       const { username } = checkAuth(context);
 
       const post = await Post.findById(postId);

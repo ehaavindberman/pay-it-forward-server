@@ -36,9 +36,27 @@ module.exports.validateLoginInput = (username, password) => {
   if(password.trim() === ''){
     errors.password = 'Password must not be empty';
   }
-  
+
   return {
     errors,
     valid: Object.keys(errors).length < 1
   };
 }
+
+module.exports.validateRecoInput = (
+  text, link, tag
+) => {
+  const errors = {};
+  // text, link, tag, description
+  if (text.trim() === '') {
+    errors.text = 'Recommendation must not be empty'
+  }
+  if (tag.trim() === '') {
+    errors.tag = 'Must contain one category'
+  }
+
+  return {
+    errors,
+    valid: Object.keys(errors).length < 1
+  };
+};

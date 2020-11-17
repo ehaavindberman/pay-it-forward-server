@@ -1,15 +1,22 @@
 const { gql } = require('apollo-server');
 
 module.exports = gql`
+  type Reco {
+    id: ID!
+    text: String!
+    link: String
+    tag: String!
+    description: String
+    createdAt: String!
+  }
   type Post {
     id: ID!
-    body: String!
+    tag: String!
+    recs: [Reco]!
     createdAt: String!
     username: String!
-    comments: [Comment]!
-    likes:[Like]!
+    likes: [Like]!
     likeCount: Int!
-    commentCount: Int!
   }
   type Comment {
     id: ID!
@@ -38,14 +45,22 @@ module.exports = gql`
   type Query {
     getPosts: [Post]
     getPost(postId: ID!): Post
+    getPostsByUser(username: String!): [Post]
+    getPostsByTag(tag: String!): [Post]
+    getReco(recoId: ID!): Reco
+    getRecs: [Reco]
+    getRecsByTag(tag: String!): [Reco]
   }
   type Mutation {
+    createReco(text: String!, link: String, tag:String!): Reco!
+    addReco(recoId: ID!, description: String!, postId: ID!): Post!
+    deleteReco(postId: ID!, recoId: ID!): Post!
+
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
-    createPost(body: String!): Post!
+
+    createPost(descriptions: [String!], recoIds: [ID!]): Post!
     deletePost(postId: ID!): String!
-    createComment(postId: ID!, body: String!): Post!
-    deleteComment(postId: ID!, commentId: ID!): Post!
     likePost(postId: ID!): Post!
   }
 `;

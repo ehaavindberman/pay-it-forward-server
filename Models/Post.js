@@ -2,13 +2,15 @@ const { model, Schema } = require('mongoose');
 
 const postSchema = new Schema({
   // handling required fields in GraphQL layer, not here
-  body: String,
   username: String,
   createdAt: String,
-  comments: [
+  recs: [
     {
-      body: String,
-      username: String,
+      recoId: String,
+      text: String,
+      link: String,
+      tag: String,
+      description: String,
       createdAt: String
     }
   ],
