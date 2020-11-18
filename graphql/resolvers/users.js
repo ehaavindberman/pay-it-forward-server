@@ -66,6 +66,15 @@ module.exports = {
           }
         });
       }
+      // Make sure email doesn't already exist
+      const user2 = await User.findOne({ email });
+      if (user2) {
+        throw new UserInputError('This email is already in use', {
+          errors: {
+            username: 'This email is already in use'
+          }
+        });
+      }
       // hash password and create an auth token
       password = await bcrypt.hash(password, 12);
 
