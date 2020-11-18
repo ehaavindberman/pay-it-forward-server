@@ -52,12 +52,12 @@ module.exports = {
         registerInput: { username, email, password, confirmPassword}
       },
     ) {
-      // TODO: validate user data
+      // validate user data
       const { valid, errors } = validateRegisterInput(username, email, password, confirmPassword);
       if(!valid) {
         throw new UserInputError('Errors', {errors});
       }
-      // TODO: Make sure user doesn't already exist
+      // Make sure user doesn't already exist
       const user = await User.findOne({ username });
       if (user) {
         throw new UserInputError('Username is taken', {
@@ -84,6 +84,16 @@ module.exports = {
         ...res._doc,
         id: res._id,
         token
+      }
+    },
+    async deleteUser(_, { userId }) {
+
+      try {
+        const user = await User.findById({userId});
+        await user.delete();
+        return 'User deleted successfully';
+      } catch(err) {
+        throw new Error(err);
       }
     }
   }

@@ -66,9 +66,6 @@ module.exports = {
 
       const reco = await Reco.findById(recoId);
 
-      console.log(post);
-      console.log(reco);
-
       if (!post) {
         throw new UserInputError('Post not found');
       } else if (!reco) {
@@ -81,7 +78,6 @@ module.exports = {
           tag: reco.tag,
           createdAt: new Date().toISOString()
         })
-        console.log(post.recs);
 
         await post.save();
         return post;
