@@ -29,8 +29,8 @@ module.exports = {
     },
     async getRecsByTag(_, { tag }) {
       try {
-        const recs = await Reco.find().sort({ createdAt: -1 });
-        return recs.filter(r => r.tag === tag);
+        const recs = await Reco.find({tag: tag}).sort({ createdAt: -1 });
+        return recs;
       } catch(err) {
         throw new Error(err);
       }

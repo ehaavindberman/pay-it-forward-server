@@ -35,6 +35,7 @@ module.exports = gql`
     token: String!
     username: String!
     createdAt: String!
+    image: String
   }
   input RegisterInput {
     username: String!
@@ -47,9 +48,13 @@ module.exports = gql`
     getPost(postId: ID!): Post
     getPostsByUser(username: String!): [Post]
     getPostsByTag(tag: String!): [Post]
+
     getReco(recoId: ID!): Reco
     getRecs: [Reco]
     getRecsByTag(tag: String!): [Reco]
+
+    getUserByUsername(username: String!): User
+    getUsers: [User]
   }
   type Mutation {
     createReco(text: String!, link: String, tag:String!): Reco!

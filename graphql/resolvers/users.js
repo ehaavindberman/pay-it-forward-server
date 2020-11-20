@@ -17,6 +17,28 @@ function generateToken(user){
 }
 
 module.exports = {
+  Query: {
+    async getUsers() {
+      try{
+        const users = await User.find();
+        return users;
+      } catch(err) {
+        throw new Error(err);
+      }
+    },
+    async getUserByUsername(_, { username }){
+      try {
+        const user = await User.findOne({username:username});
+        if (user) {
+          return user;
+        } else {
+          throw new Error('User not found');
+        }
+      } catch(err) {
+        throw new Error('User not found'); // tutorial used err here but if post isn't found, I end up in catch
+      }
+    }
+  },
   Mutation: {
     async login(_, {username, password}){
       const {errors, valid} = validateLoginInput(username, password);
@@ -78,10 +100,15 @@ module.exports = {
       // hash password and create an auth token
       password = await bcrypt.hash(password, 12);
 
+      const images = ['ade.jpg','chris.jpg','jenny.jpg','justen.jpg','joe.jpg',
+                      'nan.jpg','stevie.jpg','veronika.jpg','matthew.png','zoe.jpg',
+                      'elliot.jpg','steve.jpg','molly.png','daniel.jpg'];
+      var image = images[Math.floor(Math.random() * images.length)];
       const newUser = new User({
         email,
         username,
         password,
+        image,
         createdAt: new Date().toISOString()
       });
 
