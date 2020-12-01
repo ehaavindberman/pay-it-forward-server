@@ -39,10 +39,9 @@ module.exports = {
           post.comments.splice(commentIndex, 1);
           await post.save();
           return post;
-        } else {
-          throw new AuthenticationError('Authentication not allowed');
         }
-      } 
+        throw new AuthenticationError('Authentication not allowed');
+      }
       throw new UserInputError('Post not found');
     }
   }
