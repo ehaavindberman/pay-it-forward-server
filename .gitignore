@@ -3,3 +3,4 @@ config.js
 util/check-auth.js
 graphql/resolvers/posts (old).js
 Models/Post (old).js
+index.js

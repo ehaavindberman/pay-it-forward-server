@@ -42,9 +42,8 @@ module.exports = {
         } else {
           throw new AuthenticationError('Authentication not allowed');
         }
-      } else {
-        throw new UserInputError('Post not found');
-      }
+      } 
+      throw new UserInputError('Post not found');
     }
   }
 }
