@@ -30,7 +30,7 @@ const validateRegisterPassword = (password, confirmPassword) => {
   const lowersRegex = /[a-z]/;
   const capitalsRegex = /[A-Z]/;
   const numbersRegex = /[0-9]/;
-  if (password.length < 20 && (!password.match(lowers) || !password.match(capitalsRegex) || !password.match(numbersRegex))) {
+  if (password.length < 20 && (!password.match(lowersRegex) || !password.match(capitalsRegex) || !password.match(numbersRegex))) {
     return 'Password must be at least 20 characters or use lower case, capital letters, and numbers'
   }
 
